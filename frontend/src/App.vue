@@ -7,7 +7,7 @@ const password = ref('');
 async function submit(event) {
   event.preventDefault();
   try {
-    const response = await fetch('http://localhost:3000/api/account', {
+    const response = await fetch('https://cyber-security-eta.vercel.app/api/account', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
